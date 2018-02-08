@@ -1,0 +1,7 @@
+
+rootProject.name = 'soul-land'
+
+include 'soul-land-web'
+include 'ff4j-admin'
+include 'admin'
+

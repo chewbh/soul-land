@@ -1,0 +1,33 @@
+
+server:
+  port: 6001
+
+spring.application.name: Soul Land (Web)
+
+spring.boot.admin.url: http://localhost:6006
+management.security.enabled: false
+
+
+info:
+  group: io.boonlogc
+  artifact: soul-land-web
+  name: Soul Land Application (Web)
+  version: 1.6.5
+
+# Sample Configuration from SpringBoot => FF4J
+#security:
+#  user:
+#    name: ff4j
+#    password: ff4j
+#
+#ff4j:
+#  webapi:
+#    authentication: false
+#    authorization: false
+
+ff4j:
+  cache:
+    redis:
+      enabled: true
+      host: localhost
+      port: 16379

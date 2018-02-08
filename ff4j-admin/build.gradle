@@ -1,0 +1,32 @@
+
+group 'io.boonlogic'
+version '1.0'
+
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-security')
+
+    // enable ff4j admin console
+    compile("org.ff4j:ff4j-web:1.7.1") {
+        exclude group: 'javax.servlet', module: 'jstl'
+    }
+
+    // enable ff4j rest api
+    compile("org.ff4j:ff4j-spring-boot-web-api:1.7.1")
+
+    // use mongodb for ff4j feature/props store
+    compile("org.ff4j:ff4j-store-mongodb-v3:1.7.1")
+    compile("org.mongodb:mongo-java-driver:3.2.0")
+
+    compile("org.ff4j:ff4j-store-redis:1.7.1")
+
+    compile("de.codecentric:spring-boot-admin-starter-server:1.5.7")
+
+
+    runtime('org.springframework.boot:spring-boot-devtools')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
