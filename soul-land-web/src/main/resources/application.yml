@@ -3,16 +3,15 @@ server:
   port: 6001
 
 spring.application.name: Soul Land (Web)
-
-spring.boot.admin.url: http://localhost:6006
 management.security.enabled: false
 
+#spring.boot.admin.url: http://localhost:6006
 
-info:
-  group: io.boonlogc
-  artifact: soul-land-web
-  name: Soul Land Application (Web)
-  version: 1.6.5
+#info:
+#  group: io.boonlogc
+#  artifact: soul-land-web
+#  name: Soul Land Application (Web)
+#  version: 1.6.5
 
 # Sample Configuration from SpringBoot => FF4J
 #security:
@@ -31,3 +30,55 @@ ff4j:
       enabled: true
       host: localhost
       port: 16379
+
+ribbon:
+  ServerListRefreshInterval: 10000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 2
+  retryableStatusCodes: 404,502,503
+  OkToRetryOnAllOperations: true
+  eureka:
+    enabled: false
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+
+zuul:
+  ribbonIsolationStrategy: THREAD
+  ignored-services: '*'
+  prefix: /api
+  strip-prefix: false
+  retryable: true
+  routes:
+    helloService:
+      path: /hello/**
+      serviceId: helloService
+      retryable: true
+
+
+helloService:
+  ribbon:
+    listOfServers: http://registry1:40079,http://registry2:40080
+    ConnectTimeout: 1000
+    ReadTimeout: 3000
+    EnablePrimeConnections: true
+#    MaxTotalHttpConnections: 500
+#    MaxConnectionsPerHost: 100
+
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://registry1:8761/eureka,http://registry2:8762/eureka
+#
+#logging:
+#  level:
+#    ROOT: DEBUG

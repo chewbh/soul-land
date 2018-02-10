@@ -9,6 +9,9 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-web')
 //    compile('org.springframework.boot:spring-boot-starter-security')
+
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-zuul')
     compile('org.springframework.retry:spring-retry')
 
     compile("org.ff4j:ff4j-core:1.7.1")
@@ -17,7 +20,7 @@ dependencies {
 
     compile("org.ff4j:ff4j-store-redis:1.7.1")
 
-    compile("de.codecentric:spring-boot-admin-starter-client:1.5.7")
+//    compile("de.codecentric:spring-boot-admin-starter-client:1.5.7")
 
     runtime('org.springframework.boot:spring-boot-devtools')
     testCompile('org.springframework.boot:spring-boot-starter-test')
