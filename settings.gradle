@@ -3,5 +3,7 @@ rootProject.name = 'soul-land'
 
 include 'soul-land-web'
 include 'ff4j-admin'
-include 'admin'
+include 'support.infra.admin-server'
+include 'support.infra.service-registry'
+include 'microservices.hello'
 

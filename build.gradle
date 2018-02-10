@@ -1,27 +1,24 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 buildscript {
-    ext {
-        kotlinVersion = '1.2.21'
-        springBootVersion = '1.5.7.RELEASE'
-    }
 
     repositories {
         jcenter()
         mavenLocal()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${project.'kotlin.version'}"
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${project.'kotlin.version'}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${project.'spring.boot.version'}")
+
+        classpath("com.netflix.nebula:nebula-release-plugin:${project.'nebula.release.version'}")
     }
 }
 
+apply plugin: 'nebula.release'
 group 'io.boonlogic'
-version '1.0'
 
-allprojects {
-
-}
-
+allprojects {}
 subprojects {
 
     apply plugin: 'kotlin'
@@ -46,9 +43,53 @@ subprojects {
     }
 
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
+    }
+
+    plugins.withType(SpringBootPlugin) {
+        springBoot {
+            buildInfo {
+                def infoProps = [
+                    'name': shortName(project.name),
+                    'artifact': project.name
+                ]
+                if(project.description != null) {
+                    infoProps.put('description', project.description)
+                }
+                additionalProperties = infoProps
+            }
+        }
+
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${project.'spring.cloud.version'}"
+            }
+        }
+    }
+
+    jar {
+        baseName = shortName(project.name)
     }
 }
+
+task wrapper(type: Wrapper, description: "Update the Gradle wrapper") {
+    gradleVersion = project."gradle.version"
+}
+
+def static final shortName(String name) {
+    if(name.lastIndexOf('.') != -1 &&
+            name.length() > name.lastIndexOf('.') + 2) {
+        return name.substring(name.lastIndexOf('.') + 1)
+    }
+    return name
+}
+
