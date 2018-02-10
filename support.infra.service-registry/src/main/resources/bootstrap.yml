@@ -1,0 +1,3 @@
+
+spring.application.name: ServiceRegistry
+management.security.enabled: false

@@ -1,0 +1,32 @@
+
+description 'Service Registry & Discovery Server based on Netflix Eureka'
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-server')
+    compile('org.springframework.boot:spring-boot-starter-undertow')
+}
+
+configurations {
+    compile.exclude module: "spring-boot-starter-tomcat"
+}
+
+task bootRunRegistry1(type: org.springframework.boot.gradle.run.BootRunTask) {
+    group 'application'
+    jvmArgs = ["-Dspring.profiles.active=registry1"]
+
+    doFirst() {
+        main = project.mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+    }
+}
+
+task bootRunRegistry2(type: org.springframework.boot.gradle.run.BootRunTask) {
+    group 'application'
+    jvmArgs = ["-Dspring.profiles.active=registry2"]
+
+    doFirst() {
+        main = project.mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+    }
+}
