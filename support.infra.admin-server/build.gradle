@@ -1,0 +1,24 @@
+
+
+group 'io.boonlogic'
+version '1.0'
+
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+
+    compile("de.codecentric:spring-boot-admin-starter-server:1.5.7")
+    compile("de.codecentric:spring-boot-admin-server-ui-login:1.5.7")
+    compile("de.codecentric:spring-boot-admin-server-ui-hystrix:1.5.7")
+//    compile("de.codecentric:spring-boot-admin-server-ui-turbine:1.5.7")
+
+    compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-mail")
+
+
+    runtime('org.springframework.boot:spring-boot-devtools')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
