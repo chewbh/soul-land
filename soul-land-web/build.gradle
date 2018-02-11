@@ -17,8 +17,8 @@ dependencies {
     compile("org.ff4j:ff4j-core:1.7.1")
     compile("org.ff4j:ff4j-webapi-jersey2x:1.7.1")
     compile("org.ff4j:ff4j-aop:1.7.1")
-
     compile("org.ff4j:ff4j-store-redis:1.7.1")
+    compile project(':util.feature.toggle')
 
 //    compile("de.codecentric:spring-boot-admin-starter-client:1.5.7")
 

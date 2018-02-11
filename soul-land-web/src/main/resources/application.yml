@@ -31,6 +31,7 @@ ff4j:
       host: localhost
       port: 16379
 
+
 ribbon:
   ServerListRefreshInterval: 10000
   MaxAutoRetries: 1
@@ -69,6 +70,10 @@ helloService:
     EnablePrimeConnections: true
 #    MaxTotalHttpConnections: 500
 #    MaxConnectionsPerHost: 100
+
+eureka:
+  client:
+    enabled: false
 
 #eureka:
 #  instance:
