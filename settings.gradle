@@ -6,4 +6,6 @@ include 'ff4j-admin'
 include 'support.infra.admin-server'
 include 'support.infra.service-registry'
 include 'microservices.hello'
+include 'support.infra.config-server'
+include 'util.feature.toggle'
 

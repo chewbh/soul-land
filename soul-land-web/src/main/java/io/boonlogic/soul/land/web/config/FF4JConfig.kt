@@ -1,13 +1,10 @@
-package io.boonlogic.soul_land.web.config
+package io.boonlogic.soul.land.web.config
 
 import org.ff4j.FF4j
-import org.ff4j.cache.FF4jCacheManagerRedis
 import org.ff4j.web.jersey2.store.FeatureStoreHttp
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.ff4j.cache.InMemoryCacheManager
-import org.ff4j.cache.FF4jCacheProxy
 import org.ff4j.redis.RedisConnection
 import org.springframework.beans.factory.annotation.Autowired
 

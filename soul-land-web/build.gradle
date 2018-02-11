@@ -7,8 +7,12 @@ apply plugin: 'org.springframework.boot'
 dependencies {
 
     compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
-//    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('com.kakawait:cas-security-spring-boot-starter:0.6.1')
+    compile("org.webjars:bootstrap:3.3.4")
+
 
     compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
     compile('org.springframework.cloud:spring-cloud-starter-netflix-zuul')
@@ -19,8 +23,6 @@ dependencies {
     compile("org.ff4j:ff4j-aop:1.7.1")
     compile("org.ff4j:ff4j-store-redis:1.7.1")
     compile project(':util.feature.toggle')
-
-//    compile("de.codecentric:spring-boot-admin-starter-client:1.5.7")
 
     runtime('org.springframework.boot:spring-boot-devtools')
     testCompile('org.springframework.boot:spring-boot-starter-test')

@@ -1,4 +1,4 @@
-package io.boonlogic.soul_land
+package io.boonlogic.soul.land.web
 
 import io.boonlogic.util.feature.toggle.strategy.PARAM_GROUP_NAMES
 import io.boonlogic.util.feature.toggle.strategy.PARAM_USER_ID

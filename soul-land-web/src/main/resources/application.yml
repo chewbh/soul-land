@@ -5,13 +5,39 @@ server:
 spring.application.name: Soul Land (Web)
 management.security.enabled: false
 
-#spring.boot.admin.url: http://localhost:6006
+##################################################################################
+# CAS Security Integration
+##################################################################################
 
-#info:
-#  group: io.boonlogc
-#  artifact: soul-land-web
-#  name: Soul Land Application (Web)
-#  version: 1.6.5
+security:
+  cas:
+    enabled: true
+    server:
+      base-url: https://localhost:6443/cas/
+#      validation-base-url: https://localhost:6443/cas/
+#      paths:
+#        login: /login
+#        logout: /logout
+      protocol-version: 3
+    service:
+#      resolution-mode: dynamic
+      base-url: http://localhost:6001/
+      callback-base-url: http://localhost:6443/cas/
+#      paths:
+#        proxy-callback: /cas/proxy-callback
+      paths:
+        logout: /logout
+    user:
+      roles-attributes: group
+  basic:
+    enabled: false
+
+
+#server-url-prefix:
+#  server-login-url: https://localhost:6443/cas/login
+#  client-host-url: http://localhost:9090
+
+##################################################################################
 
 # Sample Configuration from SpringBoot => FF4J
 #security:
@@ -31,6 +57,7 @@ ff4j:
       host: localhost
       port: 16379
 
+##################################################################################
 
 ribbon:
   ServerListRefreshInterval: 10000
@@ -75,6 +102,7 @@ eureka:
   client:
     enabled: false
 
+
 #eureka:
 #  instance:
 #    prefer-ip-address: true
@@ -84,6 +112,11 @@ eureka:
 #    service-url:
 #      defaultZone: http://registry1:8761/eureka,http://registry2:8762/eureka
 #
+logging:
+  level:
+    ROOT: DEBUG
+
+
 #logging:
 #  level:
-#    ROOT: DEBUG
+#    org.jasig.cas.client.validation: debug

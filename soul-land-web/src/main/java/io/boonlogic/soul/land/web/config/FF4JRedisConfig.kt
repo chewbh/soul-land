@@ -1,4 +1,4 @@
-package io.boonlogic.soul_land.web.config
+package io.boonlogic.soul.land.web.config
 
 import org.ff4j.redis.RedisConnection
 import org.springframework.boot.context.properties.ConfigurationProperties
