@@ -1,7 +1,15 @@
 
 spring:
   profiles:
-    active: default
+    active: dev
+
+datasource:
+  app:
+    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:32769/gerrit
+#    username: gerrit
+#    password: secret
+
 
 server:
   port: 0
@@ -11,12 +19,13 @@ server:
       dir: /home/boonheng/
 
 eureka:
-  instance:
-    prefer-ip-address: true
-    instanceId: ${spring.application.name}-${spring.cloud.client.ipAddress}:${server.port}-${INSTANCE_ID:${random.value}}
+#  instance:
+#    prefer-ip-address: true
+#    instanceId: ${spring.application.name}-${spring.cloud.client.ipAddress}:${server.port}-${INSTANCE_ID:${random.value}}
 
   client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      default-zone: http://localhost:8761,http://localhost:8762
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      default-zone: http://localhost:8761,http://localhost:8762
+    enabled: false

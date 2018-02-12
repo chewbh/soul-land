@@ -1,0 +1,7 @@
+
+
+datasource:
+  app:
+    url: jdbc:postgresql://localhost:32769/gerrit
+    username: gerrit
+    password: secret
