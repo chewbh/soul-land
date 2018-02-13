@@ -1,10 +1,6 @@
 
-k
-;src/main/java/io/boonlogic/soul_land/SoulLandApplication.kt,1/2/1211c2cd90cfa46feaff93b5931a58f9dc765318
 <
 build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
-w
-Gsoul-land-web/src/main/java/io/boonlogic/soul_land/web/SearchService.kt,3/1/31fd4d3d1ade5d2b37dd4bc26399b3be6df7c352
 w
 Gff4j-admin/src/main/java/io/boonlogic/soul_land/ff4j/FF4JApplication.kt,8/2/82963e16fe99b87b4d6f46a8462b97067d4f47b1
 }
@@ -21,10 +17,60 @@ G
 ff4j-admin/build.gradle,2/a/2ad48e5b3ef59df8137f861e2c9a6ea52b6e48e5
 J
 soul-land-web/build.gradle,3/0/3067b48c1befb9d3b1bbcadb2db19561ebc4daf0
-€
-Psoul-land-web/src/main/java/io/boonlogic/soul_land/web/config/FF4JRedisConfig.kt,6/2/622b3419baa1edc621f22a7d34b226baadc8cc22
-{
-Ksoul-land-web/src/main/java/io/boonlogic/soul_land/web/config/FF4JConfig.kt,9/8/982587b1368707e7b4e81a0e4a83ff4b2663b2f6
 :
 
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
+X
+(gradle/wrapper/gradle-wrapper.properties,f/b/fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
+A
+gradle.properties,2/a/2afbb999f001938c88fa43fc2ef52abf0f8213e4
+?
+settings.gradle,0/5/05efc8b1657769a27696d478ded1e95f38737233
+
+msupport.infra.service-registry/src/main/java/io/boonlogic/support/infra/service/registry/ServerApplication.kt,9/7/97df575a52e17006671d94bfcc892839758b7c94
+q
+Asupport.infra.service-registry/src/main/resources/application.yml,9/6/96c4f5232fd4984c6b9cc765c06beaf99a4f1bdf
+o
+?support.infra.service-registry/src/main/resources/bootstrap.yml,f/1/f193d6fdd8f35a6cbb7a542a26b967a371e3ce77
+W
+'support.infra.admin-server/build.gradle,9/8/980072a38c6b60a1f40e6a911f1c51e4f2675c09
+™
+isupport.infra.admin-server/src/main/java/io/boonlogic/soul/land/support/infra/admin/server/AdminServer.kt,3/a/3ae5e4b2a7df49e2438443bbb956d10c8b5b3ef6
+m
+=support.infra.admin-server/src/main/resources/application.yml,f/c/fc9dcc90fa35e1d08ff20538bc829110805de12f
+k
+;support.infra.admin-server/src/main/resources/bootstrap.yml,f/9/f901b36cd8dd9089c65ab047f7ab9bec6e0b3e52
+
+`microservices.hello/src/main/java/io/boonlogic/soul/land/microservices/hello/HelloApplication.kt,8/e/8ee0120a21d19311020dd5208cdf0b468f314066
+f
+6microservices.hello/src/main/resources/application.yml,2/d/2df42a468ecf0429a21ade1afff07101d8319634
+d
+4microservices.hello/src/main/resources/bootstrap.yml,c/9/c91126ee3dab5b11fd9ca044735fc0d4a214a794
+`
+0soul-land-web/src/main/resources/application.yml,e/2/e2c9199af5e4b1dc3c590691b09c64f042770408
+£
+ssupport.infra.admin-server/src/main/java/io/boonlogic/soul/land/support/infra/admin/server/config/SecurityConfig.kt,2/6/260b85bd19e4a704142cd91ab3d2664d5187314e
+P
+ microservices.hello/build.gradle,0/3/03e5319d70d67cdade8fadf5b12a87cd5bdf6845
+X
+(support.infra.config-server/build.gradle,b/8/b85492bf579dd30367059416a8f3844a4f810023
+[
++support.infra.service-registry/build.gradle,8/c/8cdc218e18cf3f56c48755134becb0dcb3de40a3
+P
+ util.feature.toggle/build.gradle,6/3/63898b3d5462671cec93394b4c28862e359e2684
+
+`util.feature.toggle/src/main/java/io/boonlogic/util/feature/toggle/strategy/UserGroupStrategy.kt,2/2/22c72bd7b784988ab72565a7bd2fe2ac95fa5ad1
+
+_util.feature.toggle/src/main/java/io/boonlogic/util/feature/toggle/strategy/UserListStrategy.kt,5/2/52c1d7544c45e9e16fe16df1bc4e21fe60b1bbf4
+}
+Msoul-land-web/src/main/java/io/boonlogic/soul/land/web/SoulLandApplication.kt,7/d/7d6df46407ca8176884326c0559ca767a15361e6
+w
+Gsoul-land-web/src/main/java/io/boonlogic/soul/land/web/SearchService.kt,7/4/746ab7ce39bf62e4a034d6c0d83529480e6ce05d
+{
+Ksoul-land-web/src/main/java/io/boonlogic/soul/land/web/config/FF4JConfig.kt,a/3/a3a3beb1577056eb1cb7798f6366bf539d4a535a
+€
+Psoul-land-web/src/main/java/io/boonlogic/soul/land/web/config/FF4JRedisConfig.kt,3/0/3019cbc7bf84abe6117555372d94a985dd5e73bf
+
+Osoul-land-web/src/main/java/io/boonlogic/soul/land/web/config/SecurityConfig.kt,1/e/1ecb3789c54846e4597559a518b29eae8f106a1c
+{
+Ksoul-land-web/src/main/java/io/boonlogic/soul/land/web/CASDemoController.kt,5/d/5de859703d14fcbf9c2283666308966c4cf95ca2

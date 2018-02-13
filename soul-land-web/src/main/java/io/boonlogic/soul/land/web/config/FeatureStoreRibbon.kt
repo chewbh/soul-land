@@ -6,23 +6,11 @@ import org.ff4j.exception.FeatureNotFoundException
 import org.ff4j.store.AbstractFeatureStore
 import org.ff4j.utils.json.FeatureJsonParser
 import org.slf4j.LoggerFactory
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
 import org.springframework.web.client.RestTemplate
-
-
-const val OCCURED= " occured."
-const val CANNOT_GRANT_ROLE_ON_FEATURE_AN_HTTP_ERROR = "Cannot grant role on feature, an HTTP error "
-
-/** HTTP Parameter.  */
-const val PARAM_AUTHKEY = "apiKey"
-
-/** HTTP Header.  */
-const val HEADER_AUTHORIZATION = "Authorization"
-
-const val FF4J_API_URL = "api/ff4j"
-const val FF4J_RESOURCE_STORE = "store"
-const val FF4J_RESOURCE_FEATURES = "features"
-
-const val FF4J_RESOURCE_GROUPS = "groups"
 
 /**
  * Implementation of store using Ribbon over {@link HttpClient} connection.
@@ -52,12 +40,23 @@ class FeatureStoreRibbon(
         "http://$serviceId/$FF4J_API_URL/$FF4J_RESOURCE_STORE/$FF4J_RESOURCE_GROUPS"
     }
 
+    private fun headers(): HttpHeaders {
+        val headers = HttpHeaders()
+        headers.setAccept(listOf(MediaType.APPLICATION_JSON))
+        if(authorizationHeaderValue.isNotEmpty())
+            headers.set(HEADER_AUTHORIZATION, authorizationHeaderValue)
+        return headers
+    }
+
     override fun read(featureUid: String?): Feature {
 
         if(featureUid == null || featureUid.length <= 0)
             throw IllegalArgumentException("[Assertion failed] - Parameter #0 (string)  must not be null nor empty")
 
-        val response = restTemplate.getForEntity("$storeRestUrl/$featureUid", String::class.java)
+        val response = restTemplate.exchange("$storeRestUrl/$featureUid",
+            HttpMethod.GET, HttpEntity("parameters",headers()),
+            String::class.java)
+
         if(response.statusCode.value() == 404)
             throw FeatureNotFoundException(featureUid)
         else if(!response.statusCode.is2xxSuccessful) {
@@ -70,7 +69,12 @@ class FeatureStoreRibbon(
         if(uid == null || uid.length <= 0)
             throw IllegalArgumentException("[Assertion failed] - Parameter #0 (string)  must not be null nor empty")
 //        OPERATION_ENABLE
-        restTemplate.postForEntity("$storeRestUrl/$uid")
+        restTemplate.postForEntity("$storeRestUrl/$OPERATION_ENABLE",)
+
+        val response = restTemplate.exchange("$storeRestUrl/$uid",
+            HttpMethod.POST, HttpEntity("parameters",headers()),
+            String::class.java)
+
     }
 
     override fun clear() {
@@ -103,3 +107,36 @@ class FeatureStoreRibbon(
 fun buildAuthorization4ApiKey(apiKey: String): String {
     return PARAM_AUTHKEY + "=" + apiKey
 }
+
+const val OCCURED= " occured."
+const val CANNOT_GRANT_ROLE_ON_FEATURE_AN_HTTP_ERROR = "Cannot grant role on feature, an HTTP error "
+
+/** HTTP Parameter.  */
+const val PARAM_AUTHKEY = "apiKey"
+
+/** HTTP Header.  */
+const val HEADER_AUTHORIZATION = "Authorization"
+
+const val FF4J_API_URL = "api/ff4j"
+const val FF4J_RESOURCE_STORE = "store"
+const val FF4J_RESOURCE_FEATURES = "features"
+
+const val FF4J_RESOURCE_GROUPS = "groups"
+
+/** Custom operation on resource.  */
+const val OPERATION_ENABLE = "enable"
+
+/** Custom operation on resource.  */
+const val OPERATION_DISABLE = "disable"
+
+/** Custom operation on resource.  */
+const val OPERATION_CHECK = "check"
+
+/** Custom operation on resource.  */
+const val OPERATION_GRANTROLE = "grantrole"
+
+/** Custom operation on resource.  */
+const val OPERATION_REMOVEROLE = "removerole"
+
+/** Custom operation on resource.  */
+const val OPERATION_ADDGROUP = "addGroup"

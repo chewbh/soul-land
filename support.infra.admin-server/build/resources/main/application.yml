@@ -1,0 +1,38 @@
+
+server:
+  port: 6006
+
+management:
+  security:
+    enabled: false
+
+security:
+  user:
+    name: user
+    password: password
+
+eureka:
+  client:
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 5
+    service-url:
+      defaultZone: http://registry1:8761/eureka,http://registry2:8762/eureka
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 10
+
+spring:
+  boot:
+    admin:
+      routes:
+        endpoints: [
+          "env", "metrics", "trace", "dump", "jolokia", "info",
+          "configprops", "logfile", "refresh", "flyway",
+          "liquibase", "loggers", "heapdump", "auditevents", "hystrix.stream"
+        ]
+      discovery:
+        enabled: true
+      notify:
+        mail:
+          enabled: false
+
