@@ -27,9 +27,9 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
                     "/**/*.css", "/img/**", "/**/*.js",
                     "/rest/**").permitAll()
 
-            http.antMatcher("/**").authorizeRequests().anyRequest().authenticated();
-
             CasHttpSecurityConfigurer.cas().configure(http)
+
+            http.antMatcher("/**").authorizeRequests().anyRequest().authenticated()
 
 //            http.exceptionHandling().authenticationEntryPoint(
 //                Http401AuthenticationEntryPoint("CAS"))
