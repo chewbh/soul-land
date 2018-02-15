@@ -20,14 +20,13 @@ node {
     download = true
 }
 
-task webjar(type: Jar, dependsOn: 'jar') {
+jar {
+    dependsOn 'yarn_build'
+
     from(fileTree('build')) {
-        into 'META-INF/resources'
+            into 'META-INF/resources'
     }
 }
-
-webjar.dependsOn(yarn_build)
-build.dependsOn(webjar)
 
 clean {
     delete 'dist'
