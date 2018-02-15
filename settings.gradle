@@ -8,4 +8,6 @@ include 'support.infra.service-registry'
 include 'microservices.hello'
 include 'support.infra.config-server'
 include 'util.feature.toggle'
+include 'soul-land-web-frontend'
+include 'soul-land-web-backend'
 
