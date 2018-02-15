@@ -108,6 +108,7 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
+
 # STS (Spring Tool Suite)
 .springBeans
 
@@ -147,3 +148,8 @@ gradle-app.setting
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
 
+### Web
+
+/**/node_modules/
+/**/coverage/
+/**/dist/
