@@ -1,0 +1,84 @@
+
+server:
+  port: 9090
+
+management.security.enabled: false
+
+##################################################################################
+
+# Sample Configuration from SpringBoot => FF4J
+#security:
+#  user:
+#    name: ff4j
+#    password: ff4j
+#
+#ff4j:
+#  webapi:
+#    authentication: false
+#    authorization: false
+
+ff4j:
+  cache:
+    redis:
+      enabled: true
+      host: localhost
+      port: 16379
+
+##################################################################################
+
+ribbon:
+  ServerListRefreshInterval: 10000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 2
+  retryableStatusCodes: 404,502,503
+  OkToRetryOnAllOperations: true
+  eureka:
+    enabled: false
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 30000
+
+zuul:
+  ribbonIsolationStrategy: THREAD
+  ignored-services: '*'
+  prefix: /api
+  strip-prefix: false
+  retryable: true
+  routes:
+    helloService:
+      path: /hello/**
+      serviceId: helloService
+      retryable: true
+
+
+helloService:
+  ribbon:
+    listOfServers: http://registry1:40079,http://registry2:40080
+    ConnectTimeout: 1000
+    ReadTimeout: 3000
+    EnablePrimeConnections: true
+#    MaxTotalHttpConnections: 500
+#    MaxConnectionsPerHost: 100
+
+eureka:
+  client:
+    enabled: false
+
+
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://registry1:8761/eureka,http://registry2:8762/eureka
+#
+logging:
+  level:
+    ROOT: INFO
