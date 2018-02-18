@@ -1,0 +1,20 @@
+.wideModalDialog {
+    width: 80%;
+    max-height: 90%;
+}
+
+/* .linkButton:focus {
+    outline: none;
+} */
+/* .linkButton:active { */
+/* outline: none; */
+/* outline-color: #a75000; */
+/* } */
+/* .linkButton:hover { */
+/* outline: none; */
+/* outline-color: #a75000; */
+/* } */
+
+.cell {
+    vertial-align: middle;
+}

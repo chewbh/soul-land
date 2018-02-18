@@ -8,13 +8,15 @@ import {
   ControlLabel,
   HelpBlock,
   Button,
-  Checkbox
+  Checkbox,
+  Alert
 } from "react-bootstrap";
 
 import { withStyles } from "material-ui/styles";
 import { CircularProgress } from "material-ui/Progress";
 
 import SearchResult from "./SearchResult";
+import QuickSearchErrorBoundary from "./QuickSearchErrorBoundary";
 
 const loaderStyles = theme => ({
   progress: {
@@ -37,6 +39,16 @@ const types = [
   }
 ];
 
+// should eventually move to util
+const delay = (func, timeInMs = 1000) => {
+  const immediateAction = new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, timeInMs);
+  });
+  immediateAction.then(func);
+};
+
 class SearchDialog extends Component {
   constructor(props) {
     super(props);
@@ -55,20 +67,22 @@ class SearchDialog extends Component {
     };
   }
 
-  // renderMaterial() {
-  //   return (
-  //     <TextField id="select-qs-type"
-  //                select
-  //                SelectProps={{
-  //                  native: true,
-  //                }}
-  //                style={{fontSize: 120}}
-  //                label="Type" margin="normal"
-  //                defaultValue="Any">
-  //       { types.map(option => ( <option key={option.value} value={option.value}>{option.label}</option> )) }
-  //     </TextField>
-  //   )
-  // }
+  componentDidMount() {
+    delay(() => {
+      this.setState({ searchTerm: "test" });
+      this.performSearch();
+    });
+  }
+
+  getSearchTermInfo = () => {
+    const { termType, searchTerm, permutate, permutateOption } = this.state;
+
+    return {
+      termType,
+      searchTerm,
+      permutate: permutateOption ? permutate : false
+    };
+  };
 
   handleTermTypeChanged = e => {
     let permutateOption = false;
@@ -90,13 +104,14 @@ class SearchDialog extends Component {
   };
 
   performSearch = e => {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     if (this.checkInputValidationState() === "error") return;
 
     this.setState({
       showHelpTip: false,
       loadingSearchResult: true
+      // showError: false  // remove previous error message during a search
     });
 
     const { termType, searchTerm, permutate, permutateOption } = this.state;
@@ -104,8 +119,28 @@ class SearchDialog extends Component {
     const searchUrl = `/api/search/quick/${termType}/${searchTerm}${reqParam}`;
     console.log(`quick search submitted to ${searchUrl}`, this.state);
     fetch(searchUrl)
+      .then(resp => {
+        if (!resp.ok) throw Error(resp.statusText);
+        return resp;
+      })
       .then(result => result.json())
-      .then(result => this.setState({ result }));
+      .then(result => {
+        this.setState({ loadingSearchResult: false, result });
+        this.searchResult.showResultIfHidden();
+      })
+      .catch(err => this.handleSearchError(err));
+  };
+
+  handleSearchError = error => {
+    console.error("hit error with search", error);
+    this.setState({
+      showError: true,
+      loadingSearchResult: false
+    });
+  };
+
+  handleDismiss = () => {
+    this.setState({ showError: false });
   };
 
   moveCaretAtEndAndShowHelpTips = e => {
@@ -124,7 +159,7 @@ class SearchDialog extends Component {
 
   renderSearchInputs() {
     return (
-      <div>
+      <React.Fragment>
         <Form inline>
           <FormGroup controlId="frmQSType">
             <ControlLabel>Type</ControlLabel>{" "}
@@ -155,6 +190,7 @@ class SearchDialog extends Component {
                 this.searchTermInput = searchTermInput;
               }}
               autoFocus
+              autoComplete="off"
               onFocus={this.moveCaretAtEndAndShowHelpTips}
               value={this.state.searchTerm}
               onChange={e => this.setState({ searchTerm: e.target.value })}
@@ -199,23 +235,43 @@ class SearchDialog extends Component {
           </HelpBlock>
         )}
         <br />
-      </div>
+      </React.Fragment>
+    );
+  }
+
+  renderSearchErrorAlert() {
+    return (
+      <Alert bsStyle="danger" onDismiss={this.handleDismiss}>
+        <strong>Search failed or took longer than expected.</strong>
+        <br />
+        Please try again after 30 seconds or inform the administrator if issue
+        persists after 3 tries.
+      </Alert>
     );
   }
 
   render() {
     const { classes } = this.props;
     return (
-      <Panel style={{ borderStyle: "none" }}>
-        Search all type of cards quickly
-        <br />
-        <br />
-        {this.renderSearchInputs()}
-        {this.state.loadingSearchResult && (
-          <CircularProgress className={classes.progress} />
-        )}
-        <SearchResult data={this.state.result} />
-      </Panel>
+      <QuickSearchErrorBoundary>
+        <Panel style={{ borderStyle: "none", boxShadow: "none" }}>
+          <br />
+          {this.state.showError && this.renderSearchErrorAlert()}
+          {this.renderSearchInputs()}
+          {this.state.loadingSearchResult && (
+            <CircularProgress className={classes.progress} />
+          )}
+          {this.state.result && (
+            <SearchResult
+              data={this.state.result}
+              queryInfo={this.getSearchTermInfo()}
+              ref={r => {
+                this.searchResult = r;
+              }}
+            />
+          )}
+        </Panel>
+      </QuickSearchErrorBoundary>
     );
   }
 }
