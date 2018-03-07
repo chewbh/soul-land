@@ -1,5 +1,6 @@
 package io.boonlogic.soul.land.microservices.hello.config
 
+import org.jooq.SQLDialect
 import org.jooq.impl.DataSourceConnectionProvider
 import org.jooq.impl.DefaultConfiguration
 import org.jooq.impl.DefaultExecuteListener
@@ -18,12 +19,14 @@ class DatabaseConfig {
     fun appDatasource() = DataSourceBuilder.create().build()
 
     @Bean
-    fun connectionProvider(ds: DataSource) = DataSourceConnectionProvider(ds)
+    fun connectionProvider(appDatasource: DataSource) =
+        DataSourceConnectionProvider(appDatasource)
 
-    fun jooqConfiguration(connectionProvider: DataSourceConnectionProvider) {
-        val jooqConfig = DefaultConfiguration()
-        jooqConfig.set(connectionProvider)
-//        jooqConfig.set(DefaultExecuteListenerProvider(exception))
-    }
-
+    @Bean
+    fun jooqConfiguration(connectionProvider: DataSourceConnectionProvider) =
+        DefaultConfiguration().apply {
+            set(SQLDialect.POSTGRES)
+            set(connectionProvider)
+            // set(DefaultExecuteListenerProvider(exception))
+        }
 }

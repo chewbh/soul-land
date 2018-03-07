@@ -1,0 +1,53 @@
+
+apply plugin: 'jacoco'
+
+afterEvaluate {
+    jacoco {
+        applyTo junitPlatformTest
+        toolVersion = project.'jacoco.version'
+    }
+
+    task codeCoverageReport(type: JacocoReport) {
+        group 'verification'
+        executionData junitPlatformTest
+        sourceSets sourceSets.main
+        sourceDirectories = files(project.sourceSets.main.allSource.srcDirs)
+        classDirectories = files(files(project.sourceSets.main.output).collect {
+            fileTree(dir: it)
+            //, exclude: [
+            //'**/dto'
+            //]
+        })
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
+    }
+
+    task codeCoverageVerification(type: JacocoCoverageVerification) {
+        group 'verification'
+        executionData junitPlatformTest
+        sourceSets sourceSets.main
+        sourceDirectories = files(project.sourceSets.main.allSource.srcDirs)
+        classDirectories = files(files(project.sourceSets.main.output).collect {
+            fileTree(dir: it)
+            //, exclude: [
+            //'**/dto'
+            //]
+        })
+        violationRules {
+            rule {
+                limit {
+                    minimum = new BigDecimal("${project.'jacoco.min.coverage'}")
+                }
+            }
+        }
+    }
+    junitPlatformTest.finalizedBy codeCoverageReport
+
+    // can't really enforce this until we have a way to ignore data classes and the things they generate
+    check.dependsOn codeCoverageVerification
+}
+
+tasks.remove(jacocoTestReport)
+tasks.remove(jacocoTestCoverageVerification)

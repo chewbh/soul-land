@@ -11,6 +11,7 @@ buildscript {
 }
 
 apply plugin: 'com.moowork.node'
+apply plugin: 'java-library'
 
 buildDir = 'dist'
 

@@ -23,8 +23,8 @@ class UserListStrategy() : AbstractFlipStrategy() {
     override fun init(featureName: String?, initParams: MutableMap<String, String>?) {
         super.init(featureName, initParams)
 
-        rawUserIds = initParams?.get(PARAM_USER_LIST) ?:
-                throw IllegalArgumentException("invalid users list")
+        rawUserIds = initParams?.get(PARAM_USER_LIST)
+                ?: throw IllegalArgumentException("invalid users list")
         userIds = loadRawUserId(rawUserIds)
     }
 
@@ -33,7 +33,7 @@ class UserListStrategy() : AbstractFlipStrategy() {
         store: FeatureStore?,
         executionContext: FlippingExecutionContext?
     ): Boolean {
-        if(executionContext != null && executionContext.containsKey(PARAM_USER_ID)) {
+        if (executionContext != null && executionContext.containsKey(PARAM_USER_ID)) {
             return userIds.contains(executionContext.getString(PARAM_USER_ID))
         }
         throw IllegalArgumentException(

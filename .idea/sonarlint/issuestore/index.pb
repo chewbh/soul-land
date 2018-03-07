@@ -74,3 +74,7 @@ Psoul-land-web/src/main/java/io/boonlogic/soul/land/web/config/FF4JRedisConfig.k
 Osoul-land-web/src/main/java/io/boonlogic/soul/land/web/config/SecurityConfig.kt,1/e/1ecb3789c54846e4597559a518b29eae8f106a1c
 {
 Ksoul-land-web/src/main/java/io/boonlogic/soul/land/web/CASDemoController.kt,5/d/5de859703d14fcbf9c2283666308966c4cf95ca2
+s
+Csoul-land-web-frontend/src/components/quick-search/SearchButton.jsx,4/0/40e4cc25f19f55f8c03e5a98eb385819f05b1f99
+‡
+Wsoul-land-web-backend/src/main/java/io/boonlogic/soul/land/web/backend/SearchService.kt,6/6/66332748da19cb9fe441f72a7c57ef5a3935d82b

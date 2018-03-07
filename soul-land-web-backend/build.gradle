@@ -1,12 +1,19 @@
 
-group 'io.boonlogic'
-version '1.0'
-
 apply plugin: 'org.springframework.boot'
+
+configurations {
+    buildOnly
+}
+
+jar {
+    from {
+        configurations.buildOnly.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
 
 dependencies {
 
-    compile project(':soul-land-web-frontend')
+    buildOnly project(':soul-land-web-frontend')
 
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-web')

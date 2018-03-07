@@ -16,15 +16,14 @@ class UserGroupStrategy() : AbstractFlipStrategy() {
     private lateinit var groups: Set<String>
 
     constructor(groups: String): this() {
-        rawGroups = groups
-        this.groups = loadRawGroups(rawGroups)
+        rawGroups = groups; this.groups = loadRawGroups(rawGroups)
     }
 
     override fun init(featureName: String?, initParams: MutableMap<String, String>?) {
         super.init(featureName, initParams)
 
-        rawGroups = initParams?.get(PARAM_GRANTED_GROUP_LIST) ?:
-                throw IllegalArgumentException("invalid users list")
+        rawGroups = initParams?.get(PARAM_GRANTED_GROUP_LIST)
+                ?: throw IllegalArgumentException("invalid users list")
         groups = loadRawGroups(rawGroups)
     }
 
@@ -33,8 +32,8 @@ class UserGroupStrategy() : AbstractFlipStrategy() {
         store: FeatureStore?,
         executionContext: FlippingExecutionContext?
     ): Boolean {
-        if(executionContext != null && executionContext.containsKey(PARAM_GROUP_NAMES)) {
-            if(executionContext.getString(PARAM_GROUP_NAMES).isNullOrEmpty()) return false
+        if (executionContext != null && executionContext.containsKey(PARAM_GROUP_NAMES)) {
+            if (executionContext.getString(PARAM_GROUP_NAMES).isNullOrEmpty()) return false
             else {
                 val groupNames = executionContext.getString(PARAM_GROUP_NAMES)
                 return groups.intersect(loadRawGroups(groupNames)).size > 0

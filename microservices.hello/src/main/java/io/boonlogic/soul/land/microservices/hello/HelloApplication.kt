@@ -12,24 +12,7 @@ import javax.sql.DataSource
 @RequestMapping("/api")
 
 @SpringBootApplication
-class HelloApplication(
-    private val ds: DataSource
-) {
-
-    @GetMapping("hello/{name}")
-    fun hello(@PathVariable("name") name: String): String {
-        println(name)
-        return "hello $name"
-    }
-
-    @GetMapping("hellodb/{name}")
-    fun helloDB(@PathVariable("name") name: String): String {
-        println(name)
-        println(ds.connection.autoCommit)
-        return "hello $name"
-    }
-
-}
+class HelloApplication
 
 fun main(args: Array<String>) {
     SpringApplication.run(HelloApplication::class.java, *args)

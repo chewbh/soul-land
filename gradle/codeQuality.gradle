@@ -1,0 +1,6 @@
+
+apply plugin: 'checkstyle'
+
+checkstyle {
+    toolVersion = "6.3"
+}

@@ -4,80 +4,110 @@ buildscript {
 
     repositories {
         jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+        google()
         mavenLocal()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${project.'kotlin.version'}"
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.'kotlin.version'}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${project.'kotlin.version'}")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${project.'spring.boot.version'}")
+        classpath("org.junit.platform:junit-platform-gradle-plugin:${project.'junit.plugin.version'}")
+
+        classpath('org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2')
+        classpath "gradle.plugin.com.vanniktech:gradle-code-quality-tools-plugin:0.9.0"
 
         classpath("com.netflix.nebula:nebula-release-plugin:${project.'nebula.release.version'}")
     }
 }
 
 apply plugin: 'nebula.release'
-group 'io.boonlogic'
+apply plugin: 'org.sonarqube'
+apply plugin: "com.vanniktech.code.quality.tools"
 
-allprojects {}
+allprojects {
+    group 'io.boonlogic'
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "Kotlin & Java :: Simple Project :: description"
+//        property "sonar.projectKey", "org.sonarqube:java-gradle-simple"
+//        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+    }
+}
+
+sonarqube {
+    properties {
+        property 'sonar.projectName', 'Example of SonarQube Scanner for Gradle Usage'
+    }
+}
+
 subprojects {
-
-    apply plugin: 'kotlin'
-    apply plugin: 'kotlin-spring'
-
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
 
     repositories {
         jcenter()
         mavenLocal()
     }
 
-    dependencies {
+    if (it.name != 'soul-land-web-frontend') {
 
-        compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-        compile("org.jetbrains.kotlin:kotlin-reflect")
+        apply from: "$rootDir/gradle/kotlin.gradle"
+        apply from: "$rootDir/gradle/java.gradle"
+        apply from: "$rootDir/gradle/test.gradle"
+        apply from: "$rootDir/gradle/codeCoverage.gradle"
 
-        testCompile("org.jetbrains.kotlin:kotlin-test")
-        testCompile("org.jetbrains.kotlin:kotlin-test-junit")
-        testCompile('junit:junit:4.12')
-    }
-
-    compileKotlin {
-        kotlinOptions {
-            freeCompilerArgs = ["-Xjsr305=strict"]
-            jvmTarget = "1.8"
+        codeQualityTools {
+            failEarly = true
+            lint {
+                enabled = false
+            }
+            ktlint {
+                enabled = true
+//          toolVersion = '0.14.0'
+            }
+            detekt {
+                enabled = true
+                toolVersion = '1.0.0.RC6-3'
+                config = "$rootDir/default-detekt-config.yml"
+            }
+            cpd {
+                enabled = false
+            }
+            errorProne {
+                enabled = true
+                toolVersion = '2.1.3'
+            }
         }
-    }
-    compileTestKotlin {
-        kotlinOptions {
-            freeCompilerArgs = ["-Xjsr305=strict"]
-            jvmTarget = "1.8"
-        }
-    }
 
-    plugins.withType(SpringBootPlugin) {
-        springBoot {
-            buildInfo {
-                def infoProps = [
-                    'name': shortName(project.name),
-                    'artifact': project.name
-                ]
-                if(project.description != null) {
-                    infoProps.put('description', project.description)
+        plugins.withType(SpringBootPlugin) {
+            springBoot {
+                buildInfo {
+                    def infoProps = [
+                        'name': shortName(project.name),
+                        'artifact': project.name
+                    ]
+                    if(project.description != null) {
+                        infoProps.put('description', project.description)
+                    }
+                    additionalProperties = infoProps
                 }
-                additionalProperties = infoProps
+            }
+
+            dependencyManagement {
+                imports {
+                    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${project.'spring.cloud.version'}"
+                }
             }
         }
 
-        dependencyManagement {
-            imports {
-                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${project.'spring.cloud.version'}"
-            }
+        jar {
+            baseName = shortName(project.name)
         }
-    }
 
-    jar {
-        baseName = shortName(project.name)
+        dependencies {
+//        compile("com.fasterxml.jackson.module:jackson-module-kotlin")
+        }
     }
 }
 
@@ -93,3 +123,4 @@ def static final shortName(String name) {
     return name
 }
 
+defaultTasks ":soul-land-web-frontend:build", "build"

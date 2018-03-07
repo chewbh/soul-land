@@ -1,0 +1,39 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+
+plugins.withType(SpringBootPlugin) {
+    springBoot {
+        buildInfo {
+            def infoProps = [
+                'name': shortName(project.name),
+                'artifact': project.name
+            ]
+            if(project.description != null) {
+                infoProps.put('description', project.description)
+            }
+            additionalProperties = infoProps
+        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${project.'spring.cloud.version'}"
+        }
+    }
+}
+
+jar {
+    baseName = shortName(project.name)
+}
+
+dependencies {
+//        compile("com.fasterxml.jackson.module:jackson-module-kotlin")
+}
+
+def static final shortName(String name) {
+    if(name.lastIndexOf('.') != -1 &&
+        name.length() > name.lastIndexOf('.') + 2) {
+        return name.substring(name.lastIndexOf('.') + 1)
+    }
+    return name
+}

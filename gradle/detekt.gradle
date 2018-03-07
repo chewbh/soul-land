@@ -1,0 +1,38 @@
+
+
+String USER_HOME = System.getProperty('user.home')
+detekt {
+    debug = true
+    version = project.'detekt.version'
+    profile = 'main'
+
+    profile("main") {
+//        input = rootProject.projectDir
+        input = "$projectDir/src/main"
+        config = "$rootDir/default-detekt-config.yml"
+        output = "$buildDir/reports/detekt"
+        filters = '.*/test/.*, .*/resources/.*,.*/build/.*,.*.java'
+//        baseline = "$projectDir/detekt-baseline.xml"
+        parallel = true
+    }
+
+    idea {
+        path = "$USER_HOME/.idea"
+        codeStyleScheme = "$USER_HOME/.idea/idea-code-style.xml"
+        inspectionsProfile = "$USER_HOME/.idea/inspect.xml"
+        report = "${rootProject.projectDir}/reports"
+        mask = '*.kt,'
+    }
+}
+
+check.dependsOn detektCheck
+
+//tasks.whenTaskAdded { task ->
+//    if (task.name == 'check') {
+//        task.dependsOn 'detektCheck'
+//    }
+//}
+
+//check.dependsOn detekt // detektCheck
+// detektCheck.shouldRunAfter lintKotlin
+// lintKotlin.shouldRunAfter compileTestKotlin

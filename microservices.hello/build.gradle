@@ -1,7 +1,13 @@
+//plugins {
+//    id "io.gitlab.arturbosch.detekt" version "1.0.0.RC6-3"
+//}
 
-description 'Service Registry & Discovery Server based on Netflix Eureka'
-
+//apply from: "${rootDir}/gradle/detekt.gradle"
 apply plugin: 'org.springframework.boot'
+
+description 'Hello Microservices'
+
+
 
 dependencies {
     compile('org.springframework.cloud:spring-cloud-starter-eureka')
