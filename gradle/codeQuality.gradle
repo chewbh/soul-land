@@ -1,6 +1,14 @@
 
+
+apply plugin: "com.github.sherter.google-java-format"
 apply plugin: 'checkstyle'
 
 checkstyle {
-    toolVersion = "6.3"
+    toolVersion = "7.6.1"
+    config = resources.text.fromArchiveEntry(configurations.checkstyle[0], 'google_checks.xml')
+    maxErrors = 0
+    maxWarnings = 0
 }
+
+
+
