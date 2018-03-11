@@ -14,6 +14,7 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${project.'spring.boot.version'}")
         classpath("org.junit.platform:junit-platform-gradle-plugin:${project.'junit.plugin.version'}")
 
+        classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.1")
         classpath("gradle.plugin.com.github.sherter.google-java-format:google-java-format-gradle-plugin:0.6")
         classpath('org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.2')
         classpath "gradle.plugin.com.vanniktech:gradle-code-quality-tools-plugin:0.9.0"
@@ -35,6 +36,8 @@ sonarqube {
         property "sonar.projectName", "Kotlin & Java :: Simple Project :: description"
 //        property "sonar.projectKey", "org.sonarqube:java-gradle-simple"
 //        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.java.binaries", "$buildDir/classes/kotlin"
+        property "detekt.sonar.kotlin.config.path", "$rootDir/gradle/config/default-detekt-config.yml"
     }
 }
 
@@ -52,16 +55,12 @@ subprojects {
     }
 
     if (it.name != 'soul-land-web-frontend') {
-
-
-
         apply from: "$rootDir/gradle/codeQuality.gradle"
         apply from: "$rootDir/gradle/kotlin.gradle"
 
         apply from: "$rootDir/gradle/java.gradle"
         apply from: "$rootDir/gradle/test.gradle"
         apply from: "$rootDir/gradle/codeCoverage.gradle"
-
 
 
 //        codeQualityTools {
@@ -77,6 +76,9 @@ subprojects {
 //                enabled = true
 //                toolVersion = '1.0.0.RC6-3'
 //                config = "$rootDir/default-detekt-config.yml"
+//            }
+//            pmd {
+//                enabled = true
 //            }
 //            cpd {
 //                enabled = false
