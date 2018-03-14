@@ -80,11 +80,6 @@ Csoul-land-web-frontend/src/components/quick-search/SearchButton.jsx,4/0/40e4cc
 Wsoul-land-web-backend/src/main/java/io/boonlogic/soul/land/web/backend/SearchService.kt,6/6/66332748da19cb9fe441f72a7c57ef5a3935d82b
 ˆ
 Xsoul-land-web-backend/src/main/java/io/boonlogic/soul/land/web/backend/WebApplication.kt,b/a/baad4e919238ef7b21d70db144df127970f299f8
-I
-default-detekt-config.yml,3/1/31e66966338f703cd448e47e4ce1b20e661e505f
-:
-
-detekt.yml,c/d/cd6697219d3d54ad1a7ea36c7940721be32eb001
 S
 #soul-land-web-frontend/package.json,6/2/62fcbdffafe4053752e4e9ab72c836afb6c6975a
 s
@@ -109,8 +104,6 @@ D
 gradle/kotlin.gradle,c/d/cdbe7f3f5708f5e096e94c6eb47d5574ec8cce9e
 B
 gradle/test.gradle,9/7/97b968ee8e6c35b697dd8d01db3ab117fe4966ef
-C
-detekt-baseline.xml,9/3/93728c169fa98f3f8e33e29f650ed5a425e2f4e7
 R
 "soul-land-web-backend/build.gradle,b/4/b4e543046304c6ee02cedbfa1aca355612da1414
 S
@@ -119,9 +112,21 @@ M
 gradle/springBuildInfo.gradle,d/5/d531de3108de029f837a656546402fb2197b8c81
 I
 gradle/codeQuality.gradle,c/a/ca78b76ea1d08142211a3fa1c565d93d13042a46
-H
-config/google_checks.xml,3/8/383a49a173545f25b359f7bc801c6a2811fb57ae
 s
 Cff4j-admin/src/main/java/io/boonlogic/soul_land/ff4j/StyleTest.java,6/3/6383400446a2c3d7741390d9507298191353deee
 =
 .editorconfig,6/2/626a747c8694eaae66f2afb3d1a745b045782c70
+W
+'gradle/config/default-detekt-config.yml,8/2/822484ae874143fbf778d725bf6ff7e54e16a5ec
+H
+gradle/config/detekt.yml,1/6/16826efcb37d681951d0a2682435feefaba68443
+Q
+!gradle/config/findbugs-filter.xml,d/5/d509de44a1c59bec40c0561f094499d2d0cdaa61
+N
+gradle/config/findbugs-sec.xml,b/2/b2511fa6cba0bb2f944b070f3286a7e737e8b4e0
+O
+gradle/config/google_checks.xml,a/0/a057188827a197752ee021d34996473af6006efa
+E
+gradle/config/pmd.xml,7/2/72b864eb965199e75249d7db682ef7be79fdcc42
+Q
+!gradle/config/detekt-baseline.xml,6/2/621b0955363c23c96a951fd46e4dc02713faa197

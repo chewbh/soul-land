@@ -18,6 +18,7 @@ tasks.withType(FindBugs) {
     }
 }
 
+// TODO: still in the midst of task development
 task findSecurityBugs(type: FindBugs) {
 
     classes = fileTree(project.rootDir.absolutePath).include("**/*.class")
@@ -71,7 +72,60 @@ afterEvaluate {
         ignoreFailures = true
         showViolations = true
     }
-//    check.dependsOn(verifyGoogleJavaFormat)
+
+    addKtlint(project)
+}
+
+
+def static final boolean addKtlint(final Project subProject /*, final CodeQualityToolsPluginExtension extension */) {
+    subProject.configurations {
+        ktlint
+    }
+
+    subProject.dependencies {
+        ktlint("com.github.shyiko:ktlint:${'0.19.0'}")
+
+    }
+
+    def outputDir = "${subProject.buildDir}/reports/ktlint/"
+    def inputFiles = subProject.fileTree(dir: "src", include: "**/*.kt")
+
+    subProject.task('ktlint', type: JavaExec) {
+        inputs.files(inputFiles)
+        outputs.dir(outputDir)
+        group = 'verification'
+        description = 'Runs ktlint to check Kotlin code style'
+        main = 'com.github.shyiko.ktlint.Main'
+        classpath = subProject.configurations.ktlint
+        def outputFile = "${outputDir}ktlint-checkstyle-report.xml"
+        args '--reporter=plain', "--reporter=checkstyle,output=${outputFile}", 'src/**/*.kt'
+    }
+
+    subProject.task('ktlintFormat', type: JavaExec) {
+        inputs.files(inputFiles)
+        outputs.upToDateWhen { true } // We only need the input as it'll change when we reformat.
+        group = 'formatting'
+        description = "Runs ktlint and autoformats your code."
+        main = "com.github.shyiko.ktlint.Main"
+        classpath = subProject.configurations.ktlint
+        args "-F", "src/**/*.kt"
+    }
+
+    if(!subProject.rootProject.tasks.names.contains('ktlintToIdea')) {
+        subProject.rootProject.task('ktlintToIdea', type: JavaExec) {
+            inputs.files(inputFiles)
+            outputs.dir(outputDir)
+            group = 'formatting'
+            description = 'Runs ktlint to idea'
+            main = 'com.github.shyiko.ktlint.Main'
+            classpath = subProject.configurations.ktlint
+            args '--apply-to-idea -y'
+        }
+    }
+
+    subProject.check.dependsOn 'ktlint'
+
+    return true
 }
 
 

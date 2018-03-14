@@ -33,17 +33,11 @@ allprojects {
 
 sonarqube {
     properties {
-        property "sonar.projectName", "Kotlin & Java :: Simple Project :: description"
+        property "sonar.projectName", "Kotlin & Java :: soul-land"
 //        property "sonar.projectKey", "org.sonarqube:java-gradle-simple"
 //        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
         property "sonar.java.binaries", "$buildDir/classes/kotlin"
-        property "detekt.sonar.kotlin.config.path", "$rootDir/gradle/config/default-detekt-config.yml"
-    }
-}
-
-sonarqube {
-    properties {
-        property 'sonar.projectName', 'Example of SonarQube Scanner for Gradle Usage'
+//        property "detekt.sonar.kotlin.config.path", "$rootDir/gradle/config/default-detekt-config.yml"
     }
 }
 

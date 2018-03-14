@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class FF4JApplication {
 
-    @GetMapping( "/", produces = arrayOf("text/html"))
-    fun index() : String {
+    @GetMapping("/", produces = arrayOf("text/html"))
+    fun index(): String {
 
         val response = StringBuilder("<html><body><ul>")
         response.append("<li> To access the <b>WebConsole</b> please go to <a href=\"./ff4j-web-console/home\">ff4j-web-console</a>")
