@@ -25,7 +25,6 @@ buildscript {
 
 apply plugin: 'nebula.release'
 apply plugin: 'org.sonarqube'
-//apply plugin: "com.vanniktech.code.quality.tools"
 
 allprojects {
     group 'io.boonlogic'

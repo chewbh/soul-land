@@ -1,133 +1,185 @@
 //apply plugin: "com.github.sherter.google-java-format"
 apply plugin: 'checkstyle'
-apply plugin: 'pmd'
-apply plugin: 'findbugs'
-
-findbugs {
-    toolVersion = "3.0.1"
-    ignoreFailures = false
-    effort = "max"
-    reportLevel = "low"
-    excludeFilter = rootProject.file('gradle/config/findbugs-filter.xml') as File
-}
-
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-
-// TODO: still in the midst of task development
-task findSecurityBugs(type: FindBugs) {
-
-    classes = fileTree(project.rootDir.absolutePath).include("**/*.class")
-    source = fileTree(project.rootDir.absolutePath).include("**/*.java")
-    source += fileTree(project.rootDir.absolutePath).include("**/*.kt")
-    classpath = files()
-//    classpath += project.configurations.provided
-    pluginClasspath = project.configurations.findbugsPlugins
-
-    findbugs {
-        toolVersion = "3.0.1"
-        sourceSets = [sourceSets.main]
-        ignoreFailures = true
-        reportsDir = file("$project.buildDir/findbugsReports")
-        effort = "max"
-        reportLevel = "low"
-        includeFilter = file("$rootDir/gradle/config/findbugs-sec.xml")
-//        excludeFilter = file("$rootProject.projectDir/fsb-exclude.xml")
-    }
-}
-
-dependencies {
-    findbugs 'com.google.code.findbugs:findbugs:3.0.1'
-    findbugs configurations.findbugsPlugins.dependencies
-    findbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
-}
-
-
-pmd {
-    toolVersion = "6.1.0"
-    ignoreFailures = false
-    ruleSetFiles = files("$rootDir/gradle/config/pmd.xml")
-    ruleSets = []
-}
-
-tasks.withType(Pmd) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
 
 afterEvaluate {
 
-    checkstyle {
-        toolVersion = "8.8"
+    addKtlint(project)
+    addCheckStyle(project)
+    addPMD(project)
+    addFindBugs(project)
+}
+
+def static final boolean addCheckStyle(
+    final Project subProject, Boolean isIgnoreFailures = false, String vers = '8.8') {
+
+    subProject.checkstyle {
+        toolVersion = vers
 //        config = resources.text.fromArchiveEntry(configurations.checkstyle[0], 'google_checks.xml')
-        configFile = rootProject.file('gradle/config/google_checks.xml') as File
+        configFile = subProject.rootProject.file('gradle/config/google_checks.xml') as File
         maxErrors = 0
         maxWarnings = 0
-        ignoreFailures = true
+        ignoreFailures = isIgnoreFailures
         showViolations = true
     }
 
-    addKtlint(project)
 }
 
+def static final boolean addKtlint(final Project subProject, String vers = '0.19.0') {
 
-def static final boolean addKtlint(final Project subProject /*, final CodeQualityToolsPluginExtension extension */) {
-    subProject.configurations {
-        ktlint
-    }
+    def isKotlinEnabled = isKotlinProject(subProject)
+    if (isKotlinEnabled) {
+        subProject.configurations {
+            ktlint
+        }
 
-    subProject.dependencies {
-        ktlint("com.github.shyiko:ktlint:${'0.19.0'}")
+        subProject.dependencies {
+            ktlint("com.github.shyiko:ktlint:${vers}")
+        }
 
-    }
+        def outputDir = "${subProject.buildDir}/reports/ktlint/"
+        def inputFiles = subProject.fileTree(dir: "src", include: "**/*.kt")
 
-    def outputDir = "${subProject.buildDir}/reports/ktlint/"
-    def inputFiles = subProject.fileTree(dir: "src", include: "**/*.kt")
-
-    subProject.task('ktlint', type: JavaExec) {
-        inputs.files(inputFiles)
-        outputs.dir(outputDir)
-        group = 'verification'
-        description = 'Runs ktlint to check Kotlin code style'
-        main = 'com.github.shyiko.ktlint.Main'
-        classpath = subProject.configurations.ktlint
-        def outputFile = "${outputDir}ktlint-checkstyle-report.xml"
-        args '--reporter=plain', "--reporter=checkstyle,output=${outputFile}", 'src/**/*.kt'
-    }
-
-    subProject.task('ktlintFormat', type: JavaExec) {
-        inputs.files(inputFiles)
-        outputs.upToDateWhen { true } // We only need the input as it'll change when we reformat.
-        group = 'formatting'
-        description = "Runs ktlint and autoformats your code."
-        main = "com.github.shyiko.ktlint.Main"
-        classpath = subProject.configurations.ktlint
-        args "-F", "src/**/*.kt"
-    }
-
-    if(!subProject.rootProject.tasks.names.contains('ktlintToIdea')) {
-        subProject.rootProject.task('ktlintToIdea', type: JavaExec) {
+        subProject.task('ktlint', type: JavaExec) {
             inputs.files(inputFiles)
             outputs.dir(outputDir)
-            group = 'formatting'
-            description = 'Runs ktlint to idea'
+            group = 'verification'
+            description = 'Runs ktlint to check Kotlin code style'
             main = 'com.github.shyiko.ktlint.Main'
             classpath = subProject.configurations.ktlint
-            args '--apply-to-idea -y'
+            def outputFile = "${outputDir}ktlint-checkstyle-report.xml"
+            args '--reporter=plain', "--reporter=checkstyle,output=${outputFile}", 'src/**/*.kt'
         }
+
+        subProject.task('ktlintFormat', type: JavaExec) {
+            inputs.files(inputFiles)
+            outputs.upToDateWhen { true } // We only need the input as it'll change when we reformat.
+            group = 'formatting'
+            description = "Runs ktlint and autoformats your code."
+            main = "com.github.shyiko.ktlint.Main"
+            classpath = subProject.configurations.ktlint
+            args "-F", "src/**/*.kt"
+        }
+
+        if (!subProject.rootProject.tasks.names.contains('ktlintToIdea')) {
+            subProject.rootProject.task('ktlintToIdea', type: JavaExec) {
+                inputs.files(inputFiles)
+                outputs.dir(outputDir)
+                group = 'formatting'
+                description = 'Runs ktlint to idea'
+                main = 'com.github.shyiko.ktlint.Main'
+                classpath = subProject.configurations.ktlint
+                args '--apply-to-idea -y'
+            }
+        }
+
+        subProject.check.dependsOn 'ktlint'
+        return true
     }
-
-    subProject.check.dependsOn 'ktlint'
-
-    return true
+    return false
 }
 
+def static final boolean addPMD(
+    final Project subProject, Boolean isIgnoreFailures = false, String vers = '6.1.0') {
 
+    def isPmdSupported = isJavaProject(subProject)
+    if (isPmdSupported) {
+        subProject.plugins.apply('pmd')
+        subProject.pmd {
+            toolVersion = vers
+            ignoreFailures = isIgnoreFailures
+            ruleSetFiles = subProject.files("$subProject.rootDir/gradle/config/pmd.xml")
+        }
+
+        subProject.task('pmd', type: Pmd) {
+            description = 'Runs PMD'
+            group = 'verification'
+            ruleSets = []
+            source = subProject.fileTree(subProject.projectDir.absolutePath).include("src/main/**/*.java")
+
+            reports {
+                html.enabled = true
+                xml.enabled = false
+            }
+        }
+
+        subProject.check.dependsOn 'pmd'
+        return true
+    }
+    return false
+}
+
+def static final boolean addFindBugs(
+    final Project subProject, Boolean isIgnoreFailures = false, String vers = '3.0.1') {
+
+    if (isKotlinProject(subProject) || isJavaProject(subProject)) {
+        subProject.plugins.apply('findbugs')
+
+        subProject.findbugs {
+            toolVersion = vers
+            ignoreFailures = isIgnoreFailures
+            sourceSets = []
+            effort = "max"
+            reportLevel = "low"
+            excludeFilter = subProject.rootProject.file('gradle/config/findbugs-filter.xml') as File
+        }
+
+        subProject.tasks.withType(FindBugs) {
+
+            classes = subProject.fileTree(project.rootDir.absolutePath).include("**/*.class")
+            source = subProject.fileTree(project.rootDir.absolutePath).include("**/*.java")
+            source += subProject.fileTree(project.rootDir.absolutePath).include("**/*.kt")
+            classpath = subProject.files()
+
+            reports {
+                xml.enabled = false
+                html.enabled = true
+            }
+        }
+
+        // TODO: still in the midst of task development
+//        subProject.dependencies {
+//            findbugs "com.google.code.findbugs:findbugs:$vers"
+//            findbugs subProject.configurations.findbugsPlugins.dependencies
+//            findbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
+//        }
+//
+//        subProject.task findSecurityBugs(type: FindBugs) {
+//
+//            classes = fileTree(subProject.rootDir.absolutePath).include("**/*.class")
+//            source = fileTree(subProject.rootDir.absolutePath).include("**/*.java")
+//            source += fileTree(subProject.rootDir.absolutePath).include("**/*.kt")
+//            classpath = files()
+//
+//            pluginClasspath = subProject.configurations.findbugsPlugins
+//
+//            findbugs {
+//                toolVersion = vers
+//                sourceSets = [sourceSets.main]
+//                ignoreFailures = true
+//                reportsDir = file("$subProject.buildDir/findbugsReports")
+//                effort = "max"
+//                reportLevel = "low"
+//                includeFilter = file("$subProject.rootDir/gradle/config/findbugs-sec.xml")
+////        excludeFilter = file("$rootProject.projectDir/fsb-exclude.xml")
+//            }
+//        }
+        return true
+    }
+    return false
+}
+
+private static boolean isJavaProject(final Project project) {
+    final boolean isJava = project.plugins.hasPlugin('java')
+    final boolean isJavaLibrary = project.plugins.hasPlugin('java-library')
+    return isJava || isJavaLibrary
+}
+
+private static boolean isKotlinProject(final Project project) {
+    final boolean isKotlin = project.plugins.hasPlugin('kotlin')
+    final boolean isKotlinPlatformCommon = project.plugins.hasPlugin('kotlin-platform-common')
+    final boolean isKotlinPlatformJvm = project.plugins.hasPlugin('kotlin-platform-jvm')
+    final boolean isKotlinPlatformJs = project.plugins.hasPlugin('kotlin-platform-js')
+    return isKotlin || isKotlinPlatformCommon || isKotlinPlatformJvm || isKotlinPlatformJs
+}
 
 

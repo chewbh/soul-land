@@ -24,7 +24,6 @@ class FF4JApplication {
 
         return response.toString()
     }
-
 }
 
 fun main(args: Array<String>) {
