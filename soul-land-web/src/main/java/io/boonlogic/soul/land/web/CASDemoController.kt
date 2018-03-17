@@ -1,6 +1,6 @@
 package io.boonlogic.soul.land.web
 
-import com.kakawait.security.cas.DefaultProxyCallbackAndServiceAuthenticationDetails
+//import com.kakawait.security.cas.DefaultProxyCallbackAndServiceAuthenticationDetails
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.cas.authentication.CasAuthenticationToken
 import org.springframework.security.core.Authentication

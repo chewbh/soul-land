@@ -21,14 +21,14 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.beans.factory.annotation.Autowired
 
-
 @Configuration
 @ConditionalOnClass(FF4j::class)
 @ComponentScan("org.ff4j.spring.boot.web.api",
         "org.ff4j.services", "org.ff4j.aop", "org.ff4j.spring")
 class FF4JConfig(
     @Value("\${ff4j.webapi.authentication}") val authentication: Boolean = false,
-    @Value("\${ff4j.webapi.authorization}") val authorization: Boolean = false) {
+    @Value("\${ff4j.webapi.authorization}") val authorization: Boolean = false
+) {
 
     val log = LoggerFactory.getLogger(FF4JConfig::class.java)
 
@@ -42,12 +42,12 @@ class FF4JConfig(
     fun getFF4j(): FF4j {
 
         val ff4j = FF4j().apply {
-            if(mongoConfig.enabled && mongoStore != null) {
+            if (mongoConfig.enabled && mongoStore != null) {
                 featureStore = FeatureStoreMongo(mongoStore, "features")
                 propertiesStore = PropertyStoreMongo(mongoStore, "properties")
                 eventRepository = EventRepositoryMongo(mongoStore, "events")
                 log.info("configuring ff4j stores backed by MongoDB={}", mongoStore?.name)
-            } else if(redisConfig.enabled && redisStore != null) {
+            } else if (redisConfig.enabled && redisStore != null) {
                 featureStore = FeatureStoreRedis(redisStore)
                 propertiesStore = PropertyStoreRedis(redisStore)
                 eventRepository = EventRepositoryRedis(redisStore)

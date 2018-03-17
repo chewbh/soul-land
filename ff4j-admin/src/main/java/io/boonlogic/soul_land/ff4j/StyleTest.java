@@ -85,6 +85,7 @@ public class StyleTest {
             e.printStackTrace();
         }
 
+        System.out.println("ok");
         System.out.println("This is a very long line of string" + "this is a second line of string" + 1 + "what the "
             + "hell r you thinking lol" + "haha");
     }

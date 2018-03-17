@@ -28,5 +28,4 @@ class FF4jServletConfig : SpringBootServletInitializer() {
         ff4jConsoleServlet.ff4j = ff4j
         return ff4jConsoleServlet
     }
-
 }

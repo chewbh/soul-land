@@ -1,48 +1,52 @@
 
-apply plugin: "org.junit.platform.gradle.plugin"
+subprojects {
 
-dependencies {
-    testCompile "org.junit.platform:junit-platform-runner:${project.'junit.plugin.version'}"
-    testRuntime "org.junit.platform:junit-platform-launcher:${project.'junit.plugin.version'}"
+    apply plugin: "org.junit.platform.gradle.plugin"
 
-    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
-    testCompile "org.assertj:assertj-core:3.9.0"
+    dependencies {
+        testCompile "org.junit.platform:junit-platform-runner:${project.'junit.plugin.version'}"
+        testRuntime "org.junit.platform:junit-platform-launcher:${project.'junit.plugin.version'}"
 
-    // junit 5
-    testCompile "org.junit.jupiter:junit-jupiter-api:${project.'junit.jupiter.version'}"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:${project.'junit.jupiter.version'}"
+        testCompile "com.nhaarman:mockito-kotlin:1.5.0"
+        testCompile "org.assertj:assertj-core:3.9.0"
 
-    // junit 4
-    testCompile("junit:junit:${project.'junit.v4.version'}")
-    testRuntime "org.junit.vintage:junit-vintage-engine:${project.'junit.vintage.version'}"
+        // junit 5
+        testCompile "org.junit.jupiter:junit-jupiter-api:${project.'junit.jupiter.version'}"
+        testRuntime "org.junit.jupiter:junit-jupiter-engine:${project.'junit.jupiter.version'}"
 
-    // spek
-    testCompile("org.jetbrains.spek:spek-api:${project.'spek.version'}"){
-        exclude group: 'org.jetbrains.kotlin'
-    }
-    testCompile("org.jetbrains.spek:spek-subject-extension:${project.'spek.version'}"){
-        exclude group: 'org.jetbrains.kotlin'
-    }
-    testRuntime("org.jetbrains.spek:spek-junit-platform-engine:${project.'spek.version'}"){
-        exclude group: 'org.junit.platform'
-        exclude group: 'org.jetbrains.kotlin'
-    }
+        // junit 4
+        testCompile("junit:junit:${project.'junit.v4.version'}")
+        testRuntime "org.junit.vintage:junit-vintage-engine:${project.'junit.vintage.version'}"
 
-}
-
-junitPlatform {
-    filters {
-        engines {
-            include 'spek'
-            include 'junit-jupiter', 'junit-vintage'
+        // spek
+        testCompile("org.jetbrains.spek:spek-api:${project.'spek.version'}"){
+            exclude group: 'org.jetbrains.kotlin'
         }
-        tags {
-            // include 'fast'
-            exclude 'slow'
+        testCompile("org.jetbrains.spek:spek-subject-extension:${project.'spek.version'}"){
+            exclude group: 'org.jetbrains.kotlin'
         }
-        // includeClassNamePattern '^.*Test?$'
+        testRuntime("org.jetbrains.spek:spek-junit-platform-engine:${project.'spek.version'}"){
+            exclude group: 'org.junit.platform'
+            exclude group: 'org.jetbrains.kotlin'
+        }
+
     }
+
+    junitPlatform {
+        filters {
+            engines {
+                include 'spek'
+                include 'junit-jupiter', 'junit-vintage'
+            }
+            tags {
+                // include 'fast'
+                exclude 'slow'
+            }
+            // includeClassNamePattern '^.*Test?$'
+        }
 //        enableStandardTestTask true
 //        reportDir file('build/test-results/junit-platform')
 //        logManager 'org.'
+    }
 }
+

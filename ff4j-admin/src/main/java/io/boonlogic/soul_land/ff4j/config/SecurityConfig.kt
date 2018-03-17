@@ -8,10 +8,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 
-
 @Configuration
 @EnableWebSecurity
-class SecurityConfig: WebSecurityConfigurerAdapter() {
+class SecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Autowired
     private lateinit var apiConfig: ApiConfig
@@ -19,7 +18,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
     override fun configure(auth: AuthenticationManagerBuilder?) {
 //        super.configure(auth)
         // Load APIConfig Users intoSpring security in Memory ...
-        if(auth != null) {
+        if (auth != null) {
             var config = auth.inMemoryAuthentication()
             if (apiConfig.isAuthenticate) {
                 val count = apiConfig.users.keys.size // .users.keySet().size()
@@ -40,17 +39,17 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity?) {
 //        super.configure(http)
-        if(http != null) {
+        if (http != null) {
             if (apiConfig.isAuthenticate()) {
                 // ENFORCE AUTHENTICATION
-                http.httpBasic().
-                        // DISABLE CSRF
-                        and().csrf().disable().
-                        authorizeRequests()
+                http.httpBasic()
+                        .// DISABLE CSRF
+                        and().csrf().disable()
+                        .authorizeRequests()
                         .antMatchers("/ff4j-web-console/**").hasRole("ADMIN")
                         .antMatchers("/api/**").hasRole("USER")
                         .antMatchers("/").permitAll()
-                        .anyRequest().authenticated();
+                        .anyRequest().authenticated()
             } else {
                 http.csrf().disable()
             }
