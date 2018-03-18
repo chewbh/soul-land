@@ -33,3 +33,11 @@ clean {
     delete 'dist'
     delete 'build'
 }
+
+task yarnTest(type: YarnTask) {
+    group 'node'
+    args = ['test', '--coverage']
+}
+
+test.dependsOn yarnTest
+

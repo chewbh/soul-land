@@ -96,8 +96,6 @@ emicroservices.hello/src/main/java/io/boonlogic/soul/land/microservices/hello/co
 emicroservices.hello/src/main/java/io/boonlogic/soul/land/microservices/hello/services/HelloService.kt,2/7/27e9f7f66f0b34834a4d3f00693e23c49adaf830
 J
 gradle/codeCoverage.gradle,5/8/58d3ae30f6612f2b539a494b7ff39003a3c305b3
-D
-gradle/detekt.gradle,7/d/7d1cd0cf2ef6b197763d7591f00c4a0981894de1
 B
 gradle/java.gradle,9/e/9e367dd4d8b5887a2e1a66eb2fa1fd6fbe15c258
 D
@@ -122,8 +120,6 @@ H
 gradle/config/detekt.yml,1/6/16826efcb37d681951d0a2682435feefaba68443
 Q
 !gradle/config/findbugs-filter.xml,d/5/d509de44a1c59bec40c0561f094499d2d0cdaa61
-N
-gradle/config/findbugs-sec.xml,b/2/b2511fa6cba0bb2f944b070f3286a7e737e8b4e0
 O
 gradle/config/google_checks.xml,a/0/a057188827a197752ee021d34996473af6006efa
 E

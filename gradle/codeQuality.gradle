@@ -4,17 +4,18 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.1")
+        classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:${project.rootProject.'spotbugs.plugin.version'}")
     }
 }
 
+apply from: "$rootDir/gradle/commonUtils.gradle"
 apply plugin: 'org.sonarqube'
 
 sonarqube {
     properties {
         property "sonar.projectName", "Kotlin & Java :: soul-land"
-//        property "sonar.projectKey", "org.sonarqube:java-gradle-simple"
-//        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.projectKey", "org.sonarqube:soul-land"
+//        property "sonar.jacoco.reportPath", "${rootProject.buildDir}/jacoco/test.exec"
         property "sonar.java.binaries", "$buildDir/classes/kotlin"
         property "detekt.sonar.kotlin.config.path", "$rootDir/gradle/config/detekt.yml"
         property "detekt.sonar.kotlin.baseline.path", "$rootDir/gradle/config/detekt-baseline.xml"
@@ -26,12 +27,14 @@ subprojects {
 
         boolean failFast = false
 
-        addKtlint(project, !failFast)
-        addCheckStyle(project, !failFast)
-        addDetekt(project, !failFast)
-        addPMD(project, !failFast)
-        addSpotBugs(project, !failFast)
-        addErrorProne(project)
+        if(!rootProject.isFrontendWebProject(project)) {
+            addKtlint(project, !failFast)
+            addCheckStyle(project, !failFast)
+            addDetekt(project, !failFast)
+            addPMD(project, !failFast)
+            addSpotBugs(project, !failFast)
+            addErrorProne(project)
+        }
     }
 }
 
@@ -50,7 +53,7 @@ subprojects {
 def static final boolean addCheckStyle(
     final Project subProject, Boolean isIgnoreFailures = false, String vers = '8.8') {
 
-    if (isJavaProject(subProject)) {
+    if (subProject.rootProject.isJavaProject(subProject)) {
 
         subProject.plugins.apply('checkstyle')
 
@@ -103,7 +106,7 @@ def static final boolean addCheckStyle(
 def static final boolean addKtlint(
     final Project subProject, Boolean isIgnoreFailures = false, String vers = '0.19.0') {
 
-    def isKotlinEnabled = isKotlinProject(subProject)
+    def isKotlinEnabled = subProject.rootProject.isKotlinProject(subProject)
 
     if (isKotlinEnabled) {
 
@@ -178,7 +181,7 @@ def static final boolean addKtlint(
 def static final boolean addPMD(
     final Project subProject, Boolean isIgnoreFailures = false, String vers = '6.1.0') {
 
-    if (isJavaProject(subProject)) {
+    if (subProject.rootProject.isJavaProject(subProject)) {
         subProject.plugins.apply('pmd')
         subProject.pmd {
             toolVersion = vers
@@ -227,7 +230,7 @@ def static final boolean addPMD(
 def static final boolean addDetekt(
     final Project subProject, Boolean isIgnoreFailures = false, String vers = '1.0.0.RC6-3') {
 
-    if (isKotlinProject(subProject)) {
+    if (subProject.rootProject.isKotlinProject(subProject)) {
 
         subProject.configurations {
             detekt
@@ -282,7 +285,8 @@ def static final boolean addSpotBugs(
     final Project subProject, Boolean isIgnoreFailures = false,
     String vers = '3.1.2', String secbugVers = '1.7.1') {
 
-    if (isKotlinProject(subProject) || isJavaProject(subProject)) {
+    if (subProject.rootProject.isKotlinProject(subProject) ||
+        subProject.rootProject.isJavaProject(subProject)) {
         subProject.plugins.apply('com.github.spotbugs')
 
         subProject.dependencies {
@@ -296,16 +300,15 @@ def static final boolean addSpotBugs(
             effort = "max"
             reportLevel = "low"
             includeFilter = subProject.rootProject.file('gradle/config/findbugs-filter.xml') as File
-
         }
 
         subProject.task('spotbugs', type: SpotBugsTask, dependsOn: 'classes') {
             description = 'Runs spotbugs to analyze byte code'
             group = 'verification'
 
-            classes = subProject.fileTree(project.projectDir.absolutePath).include("**/*.class")
-            source = subProject.fileTree(project.projectDir.absolutePath).include("**/*.java")
-            source += subProject.fileTree(project.projectDir.absolutePath).include("**/*.kt")
+            classes = subProject.fileTree(project.buildDir.absolutePath).include("classes/*/main/**/*.class")
+            source = subProject.fileTree(project.projectDir.absolutePath).include("src/main/**/*.java")
+            source += subProject.fileTree(project.projectDir.absolutePath).include("src/main/**/*.kt")
             classpath = subProject.files()
             classpath += subProject.configurations.compile
             classpath += subProject.configurations.compileOnly
@@ -344,7 +347,7 @@ def static final boolean addSpotBugs(
 def static final boolean addErrorProne(
     final Project subProject, String vers = '2.2.0') {
 
-    if(isJavaProject(subProject)) {
+    if(subProject.rootProject.isJavaProject(subProject)) {
         subProject.plugins.apply('net.ltgt.errorprone')
 
         subProject.dependencies {
@@ -356,18 +359,23 @@ def static final boolean addErrorProne(
     return false
 }
 
-private static boolean isJavaProject(final Project project) {
-    final boolean isJava = project.plugins.hasPlugin('java')
-    final boolean isJavaLibrary = project.plugins.hasPlugin('java-library')
-    return isJava || isJavaLibrary
-}
-
-private static boolean isKotlinProject(final Project project) {
-    final boolean isKotlin = project.plugins.hasPlugin('kotlin')
-    final boolean isKotlinPlatformCommon = project.plugins.hasPlugin('kotlin-platform-common')
-    final boolean isKotlinPlatformJvm = project.plugins.hasPlugin('kotlin-platform-jvm')
-    final boolean isKotlinPlatformJs = project.plugins.hasPlugin('kotlin-platform-js')
-    return isKotlin || isKotlinPlatformCommon || isKotlinPlatformJvm || isKotlinPlatformJs
-}
+//public static boolean isJavaProject(final Project project) {
+//    final boolean isJava = project.plugins.hasPlugin('java')
+//    final boolean isJavaLibrary = project.plugins.hasPlugin('java-library')
+//    return isJava || isJavaLibrary
+//}
+//
+//public static boolean isKotlinProject(final Project project) {
+//    final boolean isKotlin = project.plugins.hasPlugin('kotlin')
+//    final boolean isKotlinPlatformCommon = project.plugins.hasPlugin('kotlin-platform-common')
+//    final boolean isKotlinPlatformJvm = project.plugins.hasPlugin('kotlin-platform-jvm')
+//    final boolean isKotlinPlatformJs = project.plugins.hasPlugin('kotlin-platform-js')
+//    return isKotlin || isKotlinPlatformCommon || isKotlinPlatformJvm || isKotlinPlatformJs
+//}
+//
+//public static boolean isFrontendWebProject(final Project project) {
+//    final boolean isNodeJSBased = project.plugins.hasPlugin('com.moowork.node')
+//    return isNodeJSBased
+//}
 
 

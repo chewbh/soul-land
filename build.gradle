@@ -13,7 +13,6 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-allopen:${project.'kotlin.version'}")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${project.'spring.boot.version'}")
 
-        classpath("org.junit.platform:junit-platform-gradle-plugin:${project.'junit.plugin.version'}")
         classpath("net.ltgt.gradle:gradle-errorprone-plugin:${project.'errorprone.plugin.version'}")
         classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:${project.'spotbugs.plugin.version'}")
         classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${project.'sonarqube.plugin.version'}")
@@ -24,8 +23,7 @@ buildscript {
 
 apply plugin: 'nebula.release'
 apply from: "$rootDir/gradle/codeQuality.gradle"
-apply from: "$rootDir/gradle/test.gradle"
-apply from: "$rootDir/gradle/codeCoverage.gradle"
+apply from: "$rootDir/gradle/testCoverage.gradle"
 
 allprojects {
     group 'io.boonlogic'
@@ -42,6 +40,7 @@ subprojects {
 
         apply from: "$rootDir/gradle/kotlin.gradle"
         apply from: "$rootDir/gradle/java.gradle"
+        apply from: "$rootDir/gradle/test.gradle"
 
         plugins.withType(SpringBootPlugin) {
             springBoot {
