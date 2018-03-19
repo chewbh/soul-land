@@ -1,18 +1,6 @@
 
 <
 build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
-w
-Gff4j-admin/src/main/java/io/boonlogic/soul_land/ff4j/FF4JApplication.kt,8/2/82963e16fe99b87b4d6f46a8462b97067d4f47b1
-}
-Mff4j-admin/src/main/java/io/boonlogic/soul_land/ff4j/config/SecurityConfig.kt,7/e/7ef2f7a9cb236099711dfa368ba1b7cfa3f4fe6e
-€
-Pff4j-admin/src/main/java/io/boonlogic/soul_land/ff4j/config/FF4jServletConfig.kt,4/5/45907f77fc3b1a4120e62019abf00322579d3bf7
-‡
-Wff4j-admin/src/main/java/io/boonlogic/soul_land/ff4j/config/stores/FF4JMongoDBConfig.kt,1/f/1f760c39824e5ed7f41f533c28f1f1467a61a309
-…
-Uff4j-admin/src/main/java/io/boonlogic/soul_land/ff4j/config/stores/FF4JRedisConfig.kt,5/d/5db545cf0e9958179e89f401003e912d670afc54
-y
-Iff4j-admin/src/main/java/io/boonlogic/soul_land/ff4j/config/FF4JConfig.kt,f/c/fcf63286731798c14e539416adabcc2e043228d8
 G
 ff4j-admin/build.gradle,2/a/2ad48e5b3ef59df8137f861e2c9a6ea52b6e48e5
 J
@@ -94,8 +82,6 @@ emicroservices.hello/src/main/java/io/boonlogic/soul/land/microservices/hello/co
 ]microservices.hello/src/main/java/io/boonlogic/soul/land/microservices/hello/domain/Person.kt,f/6/f6d7a0bc5ea3aa8a01f43c25add08f4d1b3b8b36
 •
 emicroservices.hello/src/main/java/io/boonlogic/soul/land/microservices/hello/services/HelloService.kt,2/7/27e9f7f66f0b34834a4d3f00693e23c49adaf830
-J
-gradle/codeCoverage.gradle,5/8/58d3ae30f6612f2b539a494b7ff39003a3c305b3
 B
 gradle/java.gradle,9/e/9e367dd4d8b5887a2e1a66eb2fa1fd6fbe15c258
 D
@@ -106,12 +92,8 @@ R
 "soul-land-web-backend/build.gradle,b/4/b4e543046304c6ee02cedbfa1aca355612da1414
 S
 #soul-land-web-frontend/build.gradle,3/3/33361888acfc66c75445973e2bed1fa429e05707
-M
-gradle/springBuildInfo.gradle,d/5/d531de3108de029f837a656546402fb2197b8c81
 I
 gradle/codeQuality.gradle,c/a/ca78b76ea1d08142211a3fa1c565d93d13042a46
-s
-Cff4j-admin/src/main/java/io/boonlogic/soul_land/ff4j/StyleTest.java,6/3/6383400446a2c3d7741390d9507298191353deee
 =
 .editorconfig,6/2/626a747c8694eaae66f2afb3d1a745b045782c70
 W
@@ -126,3 +108,13 @@ E
 gradle/config/pmd.xml,7/2/72b864eb965199e75249d7db682ef7be79fdcc42
 Q
 !gradle/config/detekt-baseline.xml,6/2/621b0955363c23c96a951fd46e4dc02713faa197
+s
+Cff4j-admin/src/test/kotlin/io/boonlogic/soul_land/ff4j/SetupTest.kt,1/e/1e4246161df992181bd1ed10a7ad8261d819be31
+J
+gradle/testCoverage.gradle,7/8/7829442108654ada91ea9234cba7c2956297ce53
+I
+gradle/commonUtils.gradle,3/c/3c7fbcdc158f7c5b8aaca7586cd31d5be5bf41fc
+V
+&soul-land-web-frontend/scripts/test.js,6/5/65a3e74526a970e0399dbe63445b4a0ef7b968b4
+A
+intellij_setup.md,a/c/ac130fc485b6dded9625cd473608a02ad5ed13ac
