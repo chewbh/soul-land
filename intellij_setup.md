@@ -18,13 +18,23 @@ Download the following plugins for Intellij 2017.3.x:
 - [File Watchers](https://plugins.jetbrains.com/plugin/download?rel=true&updateId=42137) (Version: 173.4301.12)
 - [SonarLint](https://plugins.jetbrains.com/plugin/download?rel=true&updateId=43883) (Version: 3.2.1.2406)
 - [CheckStyle-IDEA](https://plugins.jetbrains.com/plugin/download?rel=true&updateId=44107) (Version: 5.18.4)
-- Kotlin
-    - [1.2.21-release-IJ2017.3-1](https://plugins.jetbrains.com/plugin/download?rel=true&updateId=42501)
-    - [1.2.30-release-IJ2017.3-1](https://plugins.jetbrains.com/plugin/download?rel=true&updateId=43774)
+- [FindBugs-IDEA](https://plugins.jetbrains.com/plugin/download?rel=true&updateId=29582) (Version: 1.0.1)
+- [PMDPlugin](https://plugins.jetbrains.com/plugin/download?rel=true&updateId=43058) (Version: 1.8.4)
+- [Kotlin](https://plugins.jetbrains.com/plugin/download?rel=true&updateId=43774) (Version: 1.2.30-release-IJ2017.3-1)
 - [Protobuf Support](https://plugins.jetbrains.com/plugin/download?rel=true&updateId=37332) (Version: 0.10.2)
 - [NodeJS](https://plugins.jetbrains.com/plugin/download?rel=true&updateId=42139) (Version: 173.4301.12)
+- [Gerrit](https://plugins.jetbrains.com/plugin/download?rel=true&updateId=44224) (Version: 1.0.6-146)
 
-Copy the files to `$HOME\.IntelliJIdea2017.3/plugin`
+
+Copy the files to `$HOME\.IntelliJIdea2017.3/config/plugins`. 
+Alternatively, you can perform the following for each plugins to install:
+
+1. Open the Settings / Preferences dialog (e.g. Ctrl+Alt+S).
+2. In the left-hand pane, select Plugins.
+3. In the right-hand part, on the Plugins page, click Install plugin from disk.
+4. In the dialog that opens, select the plugin archive file, and click OK.
+5. In the Settings / Preferences dialog, click Apply or OK.
+6. If suggested, restart IntelliJ IDEA.
 
 
 #### Java Coding Standard
