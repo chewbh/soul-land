@@ -104,7 +104,7 @@ def static final boolean addCheckStyle(
  * @return
  */
 def static final boolean addKtlint(
-    final Project subProject, Boolean isIgnoreFailures = false, String vers = '0.19.0') {
+    final Project subProject, Boolean isIgnoreFailures = false, String vers = '0.20.0') {
 
     def isKotlinEnabled = subProject.rootProject.isKotlinProject(subProject)
 
