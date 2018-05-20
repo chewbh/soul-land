@@ -1,0 +1,16 @@
+server:
+  port: 0
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: newRegistration
+          group: regGroup
+        output:
+          destination: newRegistration
+      rabbit:
+        bindings:
+          input:
+            consumer:
+              autoBindDlq: true

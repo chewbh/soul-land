@@ -12,6 +12,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.'kotlin.version'}")
         classpath("org.jetbrains.kotlin:kotlin-allopen:${project.'kotlin.version'}")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${project.'spring.boot.version'}")
+        classpath("com.google.protobuf:protobuf-gradle-plugin:${project.'protobuf.plugin.version'}")
 
         classpath("net.ltgt.gradle:gradle-errorprone-plugin:${project.'errorprone.plugin.version'}")
         classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:${project.'spotbugs.plugin.version'}")

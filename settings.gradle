@@ -10,4 +10,6 @@ include 'support.infra.config-server'
 include 'util.feature.toggle'
 include 'soul-land-web-frontend'
 include 'soul-land-web-backend'
+include 'microservices.registration'
+include 'microservices.api-gateway'
 

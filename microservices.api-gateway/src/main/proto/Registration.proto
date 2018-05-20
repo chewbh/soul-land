@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package registration;
+
+option java_package = "io.boonlogic.soul.land.microservices.registration.event";
+//option java_outer_classname = "AddressBookProtos";
+
+message RegistrationEvent {
+    string id = 1;
+    string name = 2;
+}

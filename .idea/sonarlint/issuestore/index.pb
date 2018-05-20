@@ -118,3 +118,7 @@ V
 &soul-land-web-frontend/scripts/test.js,6/5/65a3e74526a970e0399dbe63445b4a0ef7b968b4
 A
 intellij_setup.md,a/c/ac130fc485b6dded9625cd473608a02ad5ed13ac
+Œ
+\microservices.hello/src/main/java/io/boonlogic/soul/land/microservices/hello/dao/CarDAO.java,f/b/fb9326a7613cf3453a0ffa7f061bdf247a66fa12
+“
+cmicroservices.hello/src/main/java/io/boonlogic/soul/land/microservices/hello/services/CarService.kt,6/1/612600c02c6044c71f5638efdf52d29125f0be23

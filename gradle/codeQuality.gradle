@@ -33,7 +33,7 @@ subprojects {
             addDetekt(project, !failFast)
             addPMD(project, !failFast)
             addSpotBugs(project, !failFast)
-            addErrorProne(project)
+//            addErrorProne(project)
         }
     }
 }
@@ -354,6 +354,11 @@ def static final boolean addErrorProne(
             errorprone "com.google.errorprone:error_prone_core:$vers"
             errorprone "com.google.guava:guava:22.0"
         }
+
+        subProject.tasks.withType(JavaCompile) {
+            options.compilerArgs += ['-XepDisableWarningsInGeneratedCode']
+        }
+
         return true
     }
     return false

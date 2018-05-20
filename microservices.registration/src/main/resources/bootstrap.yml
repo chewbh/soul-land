@@ -1,0 +1,3 @@
+
+spring.application.name: helloService
+management.security.enabled: false
